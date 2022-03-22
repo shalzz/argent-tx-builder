@@ -1,6 +1,6 @@
 {
-  "root": "apps/tx-builder/",
-  "sourceRoot": "apps/tx-builder/src/",
+  "root": "/",
+  "sourceRoot": "/src/",
   "projectType": "application",
   "tags": ["scope:applications"],
   "targets": {
