@@ -1,0 +1,44 @@
+{
+  "name": "tx-builder",
+  "version": "1.5.0",
+  "private": true,
+  "homepage": "/tx-builder",
+  "dependencies": {
+    "@gnosis.pm/safe-react-components": "^1.0.1",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.0",
+    "axios": "^0.24.0",
+    "lodash": "^4.17.21",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-hook-form": "^7.27.0",
+    "react-router-dom": "^6.2.1",
+    "web3": "~1.7.0"
+  },
+  "devDependencies": {
+    "@hookform/devtools": "^4.0.2",
+    "@types/react-beautiful-dnd": "^13.1.2"
+  },
+  "scripts": {
+    "start": "dotenv -e .env -- react-app-rewired start",
+    "build": "dotenv -e .env -- react-app-rewired build",
+    "test": "react-app-rewired test --passWithNoTests",
+    "deploy:s3": "bash ../../scripts/deploy_to_s3_bucket.sh",
+    "deploy:pr": "bash ../../scripts/deploy_pr.sh",
+    "deploy:prod-hook": "bash ../../scripts/prepare_production_deployment.sh"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
