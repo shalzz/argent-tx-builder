@@ -1,10 +1,12 @@
-import { FixedIcon, Icon, Text, Title, Tooltip } from '@gnosis.pm/safe-react-components';
+import { Button, FixedIcon, Icon, Text, Title, Tooltip } from '@gnosis.pm/safe-react-components';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { HOME_PATH, REVIEW_AND_CONFIRM_PATH } from '../routes/routes';
+import useServices from '../hooks/useServices';
 
 const Header = () => {
   const { pathname } = useLocation();
+  const { provider } = useServices();
 
   const isReviewAndConfirmPath = pathname === REVIEW_AND_CONFIRM_PATH;
 
@@ -29,6 +31,16 @@ const Header = () => {
           </Tooltip>
         </>
       )}
+
+      <Button
+        size="md"
+        type="button"
+        variant="contained"
+        color="primary"
+        onClick={() => { provider?.enable() }}
+      >
+         Connect Wallet
+      </Button>
     </HeaderWrapper>
   );
 };

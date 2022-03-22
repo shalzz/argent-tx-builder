@@ -1,11 +1,9 @@
 import { useCallback, useState } from 'react';
-import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
 
 import { ProposedTransaction } from '../../typings/models';
 
 export default function useTransactions() {
   const [transactions, setTransactions] = useState<ProposedTransaction[]>([]);
-  const { sdk } = useSafeAppsSDK();
 
   const handleAddTransaction = useCallback(
     (newTransaction: ProposedTransaction) => {
@@ -36,8 +34,8 @@ export default function useTransactions() {
   );
 
   const handleSubmitTransactions = useCallback(async () => {
-    await sdk.txs.send({ txs: transactions.map((transaction) => transaction.raw) });
-  }, [sdk.txs, transactions]);
+    // await argentWallet.wc_multiCall(transactions.map((transaction) => transaction.raw));
+  }, []);
 
   const handleReorderTransactions = useCallback((sourceIndex, destinationIndex) => {
     setTransactions((transactions) => {

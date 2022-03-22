@@ -38,7 +38,8 @@ const Dashboard = ({
   handleReorderTransactions,
   handleReplaceTransaction,
 }: DashboardProps): ReactElement | null => {
-  const { web3, interfaceRepo, chainInfo } = useServices();
+  const { web3, interfaceRepo } = useServices();
+  const chainInfo = { shortName: "Ethereum", nativeCurrency: { symbol: "ETH"} };
 
   const [address, setAddress] = useState('');
   const [abi, setAbi] = useState('');

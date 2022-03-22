@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { ChainInfo } from '@gnosis.pm/safe-apps-sdk';
 
 enum PROVIDER {
   SOURCIFY = 1,
@@ -51,11 +50,11 @@ const getAbiFromGateway = async (address: string, chainName: string): Promise<an
   throw new Error('Contract found but could not found ABI using the Gateway');
 };
 
-const getAbi = async (address: string, chainInfo: ChainInfo): Promise<any> => {
+const getAbi = async (address: string, chainId: string): Promise<any> => {
   try {
-    return await getAbiFromSourcify(address, chainInfo.chainId);
+    return await getAbiFromSourcify(address, chainId);
   } catch {
-    return await getAbiFromGateway(address, chainInfo.chainId);
+    return await getAbiFromGateway(address, chainId);
   }
 };
 

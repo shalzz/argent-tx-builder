@@ -18,12 +18,12 @@ const App = () => {
     handleReplaceTransaction,
   } = useTransactions();
 
-  const { web3, interfaceRepo, chainInfo } = useServices();
+  const { web3, interfaceRepo } = useServices();
 
-  const networkPrefix = chainInfo?.shortName;
+  const networkPrefix = "Ethereum";
 
   const navigate = useNavigate();
-  const nativeCurrencySymbol = chainInfo?.nativeCurrency.symbol;
+  const nativeCurrencySymbol = "ETH";
 
   const getAddressFromDomain = (name: string): Promise<string> => {
     return web3?.eth.ens.getAddress(name) || new Promise((resolve) => resolve(name));

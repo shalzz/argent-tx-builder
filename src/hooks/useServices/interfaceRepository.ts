@@ -1,4 +1,3 @@
-import { ChainInfo } from '@gnosis.pm/safe-apps-sdk';
 import getAbi from './getAbi';
 
 export interface ContractInput {
@@ -18,14 +17,14 @@ export interface ContractInterface {
 }
 
 class InterfaceRepository {
-  chainInfo: ChainInfo;
+  chainId: string;
 
-  constructor(chainInfo: ChainInfo) {
-    this.chainInfo = chainInfo;
+  constructor(chainId: string) {
+    this.chainId = chainId;
   }
 
   private async _loadAbiFromBlockExplorer(address: string): Promise<string> {
-    return await getAbi(address, this.chainInfo);
+    return await getAbi(address, this.chainId);
   }
 
   private _isMethodPayable = (m: any) => m.payable || m.stateMutability === 'payable';

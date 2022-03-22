@@ -1,59 +1,57 @@
 import { useState, useEffect } from 'react';
 import Web3 from 'web3';
-import SafeAppsSDK, { ChainInfo } from '@gnosis.pm/safe-apps-sdk';
-import { useSafeAppsSDK } from '@gnosis.pm/safe-apps-react-sdk';
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import InterfaceRepository from './interfaceRepository';
 import { InterfaceRepo } from './interfaceRepository';
-import { CHAINS, rpcUrlGetterByNetwork } from '../../utils';
 
 export interface Services {
-  sdk: SafeAppsSDK;
-  chainInfo: ChainInfo | undefined;
+  provider: WalletConnectProvider | undefined;
+  chainId: number | undefined;
   web3: Web3 | undefined;
   interfaceRepo: InterfaceRepo | undefined;
 }
 
 export default function useServices(): Services {
-  const { sdk } = useSafeAppsSDK();
+  const [provider, setProvider] = useState<WalletConnectProvider | undefined>();
   const [web3, setWeb3] = useState<Web3 | undefined>();
-  const [chainInfo, setChainInfo] = useState<ChainInfo>();
+  const [chainId, setChainId] = useState<number>(1);
   const [interfaceRepo, setInterfaceRepo] = useState<InterfaceRepository | undefined>();
 
   useEffect(() => {
-    if (!chainInfo) {
-      return;
-    }
+    const providerInstance: any = new WalletConnectProvider({
+        infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
+    });
 
-    const rpcUrlGetter = rpcUrlGetterByNetwork[chainInfo.chainId as CHAINS];
-    if (!rpcUrlGetter) {
-      throw Error(`RPC URL not defined for chain id ${chainInfo.chainId}`);
-    }
-    const rpcUrl = rpcUrlGetter(process.env.REACT_APP_RPC_TOKEN);
+    const web3Instance = new Web3(providerInstance);
 
-    const web3Instance = new Web3(rpcUrl);
-    const interfaceRepo = new InterfaceRepository(chainInfo);
-
+    setProvider(providerInstance);
     setWeb3(web3Instance);
-    setInterfaceRepo(interfaceRepo);
-  }, [chainInfo]);
+  }, [chainId]);
 
   useEffect(() => {
+    if (web3 === undefined) {
+      return
+    }
+
     const getChainInfo = async () => {
       try {
-        const chainInfo = await sdk.safe.getChainInfo();
-        setChainInfo(chainInfo);
+        const chainId = await web3?.eth.getChainId();
+        const interfaceRepo = new InterfaceRepository(chainId!.toString());
+
+        setChainId(chainId);
+        setInterfaceRepo(interfaceRepo);
       } catch (error) {
         console.error('Unable to get chain info:', error);
       }
     };
 
     getChainInfo();
-  }, [sdk.safe]);
+  }, [web3]);
 
   return {
-    sdk,
-    chainInfo,
+    provider,
+    chainId,
     web3,
     interfaceRepo,
   };
